@@ -1,65 +1,196 @@
-import Image from "next/image";
+"use client";
+import { useState } from 'react';
+import { triggerAlert } from '@/lib/alert-system';
+import { useVoice } from '@/hooks/use-voice';
+import MedicineScanner from '@/components/MedicineScanner';
 
 export default function Home() {
+  const [scannedMeds, setScannedMeds] = useState<string[]>([]);
+  const [message, setMessage] = useState<string>("Ready to scan.");
+  const { announce } = useVoice();
+
+  const handleCapture = async (imageSrc: string) => {
+    setMessage("Processing image...");
+    announce("Processing image...", 'low');
+
+    try {
+      const response = await fetch('/api/ocr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageSrc }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Handle Simulation Mode warning
+        if (data.isSimulated) {
+          const simMsg = `[SIMULATED] Detected: ${data.drugName}`;
+          setMessage(simMsg);
+          announce(`Simulated detection of ${data.drugName}. Gemini API Key is missing.`, 'medium');
+          await new Promise(r => setTimeout(r, 2000));
+        }
+
+        // Handle Gemini confidence and identification logic
+        if (data.isMedicine === false || data.drugName === 'Unknown') {
+          const msg = "No medication detected. Please point the camera at the label.";
+          setMessage(msg);
+          announce(msg, 'medium');
+        } else if (data.confidence < 80) {
+          const msg = `Not sure. I think it's ${data.drugName}, but please re-center the package and hold steady.`;
+          setMessage(msg);
+          announce(msg, 'medium');
+        } else {
+          // High confidence detection
+          const displayName = (data.genericName && data.genericName !== data.drugName && data.genericName !== "Unknown")
+            ? `${data.drugName} (${data.genericName})`
+            : data.drugName;
+
+          addMedication(displayName);
+        }
+
+      } else {
+        const errorMsg = "No medication detected. Please point the camera at the label.";
+        setMessage(errorMsg);
+        announce(errorMsg, 'medium');
+      }
+    } catch (e) {
+      console.error("OCR Request failed", e);
+      const errorMsg = "Error connecting to vision service. Please try again.";
+      setMessage(errorMsg);
+      announce(errorMsg, 'medium');
+    }
+  };
+
+  const addMedication = (newDrug: string) => {
+    setScannedMeds(prev => {
+      const updatedList = [...prev, newDrug];
+
+      const countMsg = `Added ${newDrug}. Total ${updatedList.length} medicines in list. Scanning for conflicts...`;
+      setMessage(countMsg);
+      announce(countMsg, 'medium');
+
+      // Check for conflicts between the NEW drug and ALL existing drugs
+      checkGlobalConflicts(newDrug, prev);
+
+      return updatedList;
+    });
+  };
+
+  const checkGlobalConflicts = async (newDrug: string, existingDrugs: string[]) => {
+    for (const existingDrug of existingDrugs) {
+      // Double check against each previous drug
+      checkConflict(existingDrug, newDrug);
+    }
+  };
+
+  const checkConflict = async (drugA: string, drugB: string) => {
+    console.log(`Checking conflict between ${drugA} and ${drugB}...`);
+
+    try {
+      const response = await fetch('/api/check-conflict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ drugA, drugB }),
+      });
+
+      if (!response.ok) throw new Error("Failed to check interactions");
+
+      const data = await response.json();
+
+      if (data.hasInteraction && data.severity === 'high') {
+        const alertMsg = `DANGER! ${drugA} and ${drugB} have a SEVERE interaction. Do not take them together!`;
+        setMessage(alertMsg);
+
+        if (typeof navigator !== 'undefined' && "vibrate" in navigator) {
+          navigator.vibrate([500, 200, 500, 200, 1000]);
+        }
+
+        announce(alertMsg, 'high');
+      } else {
+        // Safe / No interaction found
+        if (data.description === "AI Analysis unavailable.") {
+          const errorMsg = "Could not verify interactions (AI Unavailable).";
+          setMessage(errorMsg);
+          announce(errorMsg, 'low');
+        } else {
+          const safeMsg = `Safe. No known interactions between ${drugA} and ${drugB}.`;
+          setMessage(safeMsg);
+          // Optional: Don't announce "Safe" every time to avoid spam, or announce it briefly. 
+          // The user asked "otherwise it should return no risk".
+          announce("No risk detected.", 'low');
+        }
+      }
+
+    } catch (e) {
+      console.error(e);
+      // Silent error for background checks to avoid spamming user
+    }
+  };
+
+  const clearList = () => {
+    setScannedMeds([]);
+    setMessage("List cleared.");
+    announce("List cleared. Ready for new patient.", 'low');
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="flex h-[100dvh] flex-col items-center justify-between bg-slate-900 text-white overflow-hidden relative">
+      <header className="w-full p-4 bg-slate-900/80 backdrop-blur-md z-10 flex justify-center border-b border-slate-800">
+        <h1 className="text-xl font-bold text-blue-400">Vision-Voice Pharmacy</h1>
+      </header>
+
+      {/* Camera Section - Grows to fill available space */}
+      <div className="flex-1 w-full bg-black relative flex items-center justify-center overflow-hidden">
+        <MedicineScanner onCapture={handleCapture} />
+      </div>
+
+      {/* Controls & Feedback Section */}
+      <div className="w-full bg-slate-900 p-4 flex flex-col gap-3 z-10 border-t border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+
+        {/* Status Message */}
+        <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 w-full text-center min-h-[60px] flex items-center justify-center">
+          <p className="text-sm md:text-lg font-mono text-yellow-300">{message}</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        {/* Action Buttons */}
+        <button
+          className="w-full bg-red-600/90 active:bg-red-700 text-white py-4 rounded-xl font-bold uppercase tracking-wider transition-colors touch-manipulation"
+          onClick={clearList}
+        >
+          Clear List (Start Over)
+        </button>
+
+        {/* Collapsable/Scrollable List Drawer Suggestion or just a list below? 
+              For now, let's put the list in a scrollable area if there are items, 
+              but since space is tight, maybe an overlay or just a small list?
+              Actually, let's make the list an overlay drawer or a scrollable section 
+              that appears above the bottom sheet if there are meds.
+              
+              Simpler approach for hackathon: 
+              If meds exist, show a "XX Medications Scanned" summary button that opens a modal?
+              Or just put the list IN the bottom sheet, scrollable max-height.
+           */}
+
+        {scannedMeds.length > 0 && (
+          <div className="w-full max-h-[150px] overflow-y-auto bg-slate-800/50 rounded-lg p-2 mt-1 space-y-2 border border-slate-700">
+            <h3 className="text-xs font-semibold text-gray-400 sticky top-0 bg-slate-900/90 p-1">Scanned Meds ({scannedMeds.length}):</h3>
+            <ul className="space-y-1">
+              {scannedMeds.map((drug, i) => (
+                <li key={i} className="flex justify-between items-center text-sm p-1 border-b border-slate-700/50 last:border-0">
+                  <span className="text-emerald-400 font-bold truncate pr-2">{drug}</span>
+                  <span className="text-gray-500 text-xs">#{i + 1}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Accessible Live Region */}
+      <div role="alert" aria-live="assertive" className="sr-only">
+        {message}
+      </div>
+    </main>
   );
 }

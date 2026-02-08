@@ -5,69 +5,109 @@ const genAI = new GoogleGenerativeAI(apiKey || "");
 
 export interface InteractionResult {
     hasInteraction: boolean;
-    severity: 'high' | 'medium' | 'none';
+    severity: "high" | "medium" | "none";
     description: string;
+    proactiveQuestion?: string;
 }
 
-export async function analyzeInteraction(drugA: string, drugB: string): Promise<InteractionResult> {
+export async function analyzeInteraction(
+    drugA: string,
+    drugB: string
+): Promise<InteractionResult> {
+    if (!apiKey) {
+        console.error("GEMINI_API_KEY is missing.");
+        return {
+            hasInteraction: false,
+            severity: "none",
+            description: "API Key Missing",
+        };
+    }
+
+    // Use Gemini 1.5 Flash for speed & reliability in Voice Demo
+    const model = genAI.getGenerativeModel({
+        model: "gemini-2.0-flash-exp",
+        // Ensure JSON mode
+        generationConfig: { responseMimeType: "application/json" },
+    });
+
+    const prompt = `
+    Act as a clinical pharmacist. Analyze the potential drug-drug interaction between:
+    Drug A: "${drugA}"
+    Drug B: "${drugB}"
+
+    Tasks:
+    1. Determine if there is a known medical interaction.
+    2. Assess the severity (High, Medium, None).
+    3. Write a CONCISE warning message for a Voice Interface (Max 2 sentences). 
+       - Mention specific risk (e.g., "Increases bleeding risk").
+    4. **PROACTIVE QUESTION:** If interaction is Medium/High, generate a 1-sentence, empathetic follow-up question based on side effects.
+       - Example: "Have you noticed any unusual bruising today?"
+       - If None, leave empty or null.
+
+    Return a JSON object:
+    {
+      "hasInteraction": boolean,
+      "severity": "high" | "medium" | "none",
+      "description": "string",
+      "proactiveQuestion": "string"
+    }
+
+    Rules:
+    - If no interaction, set hasInteraction: false, severity: "none".
+    - If dangerous, set severity: "high".
+  `;
+
     try {
-        if (!apiKey) {
-            console.error("GEMINI_API_KEY is missing.");
-            throw new Error("GEMINI_API_KEY is not set.");
-        }
-
-        // Use Gemini 3 Pro for complex reasoning as requested
-        const model = genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
-
-        const prompt = `
-      Act as a clinical pharmacist. Analyze the potential drug-drug interaction between:
-      Drug A: "${drugA}"
-      Drug B: "${drugB}"
-
-      Tasks:
-      1. Determine if there is a known medical interaction.
-      2. Assess the severity (High, Medium, None).
-      3. Write a CONCISE warning message for a Voice Interface (Max 2 sentences). 
-         - Mention the drug class if relevant (e.g., "Both are NSAIDs").
-         - Mention the specific risk (e.g., "Increases risk of stomach irritation").
-         - Example: "Paracetamol and Aspirin are both analgesics. Combining them increases risk of stomach irritation."
-
-      Return a JSON object strictly matching this interface:
-      {
-        "hasInteraction": boolean,
-        "severity": "high" | "medium" | "none",
-        "description": "string"
-      }
-
-      Rules:
-      - If no interaction exists, set hasInteraction: false, severity: "none".
-      - If dangerous (life-threatening, majorcontraindication), set severity: "high".
-      - If strict JSON cannot be generated, default to specific fallback.
-    `;
-
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
 
-        const jsonString = text.replace(/```json|```/g, "").trim();
+        const data = JSON.parse(text);
 
-        try {
-            const parsed = JSON.parse(jsonString);
-            return {
-                hasInteraction: !!parsed.hasInteraction,
-                severity: ['high', 'medium', 'none'].includes(parsed.severity) ? parsed.severity : 'none',
-                description: parsed.description || "No description provided."
-            };
-        } catch (e) {
-            console.error("Failed to parse Gemini Interaction JSON:", text);
-            return { hasInteraction: false, severity: 'none', description: "Failed to analyze interaction." };
-        }
-
+        return {
+            hasInteraction: !!data.hasInteraction,
+            severity: ["high", "medium", "none"].includes(data.severity)
+                ? data.severity
+                : "none",
+            description: data.description || "No description provided.",
+            proactiveQuestion: data.proactiveQuestion || "",
+        };
     } catch (error) {
-        console.error("Gemini Interaction API Error:", error);
-        // Fallback? Or throw? The user wants "AI" so let's fail gracefully if it's just a model error
-        // but maybe we should let the OpenFDA fallback happen if this fails? 
-        // For now, return a safe "error" state so the UI doesn't crash.
-        return { hasInteraction: false, severity: 'none', description: "AI Analysis unavailable." };
+        console.error("Gemini Interaction Error:", error);
+        return {
+            hasInteraction: false,
+            severity: "none",
+            description: "AI Analysis unavailable.",
+        };
+    }
+}
+
+export async function analyzeUserResponse(
+    userResponse: string,
+    questionContext: string
+): Promise<string> {
+    if (!apiKey) return "API Key Missing";
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+
+    const prompt = `
+        Context: The AI asked the patient: "${questionContext}"
+        Patient Replied: "${userResponse}"
+
+        Task:
+        1. Analyze the sentiment (Is the user reporting a symptom? Yes/No).
+        2. Generate a compassionate, short response (Max 2 sentences).
+           - If YES (symptom reported): Advise seeing a doctor or visiting a clinic immediately.
+           - If NO (no symptom): Reassure them to keep monitoring.
+        
+        Return just the plain text response string.
+    `;
+
+    try {
+        const result = await model.generateContent(prompt);
+        return result.response.text();
+    } catch (e) {
+        console.error("Response Analysis Error", e);
+        return "I couldn't understand that, but please consult your doctor if you feel unwell.";
     }
 }

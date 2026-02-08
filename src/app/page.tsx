@@ -7,6 +7,7 @@ import MedicineScanner from '@/components/MedicineScanner';
 export default function Home() {
   const [scannedMeds, setScannedMeds] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("Ready to scan.");
+  const [isListening, setIsListening] = useState(false);
   const { announce } = useVoice();
 
   const handleCapture = async (imageSrc: string) => {
@@ -84,6 +85,42 @@ export default function Home() {
     }
   };
 
+  const startListening = (questionContext: string) => {
+    if (typeof window === 'undefined' || !('webkitSpeechRecognition' in window)) return;
+
+    // @ts-ignore
+    const recognition = new (window as any).webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+
+    recognition.onresult = async (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setMessage(`You said: "${transcript}"`);
+
+      try {
+        const res = await fetch('/api/analyze-response', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userResponse: transcript, questionContext })
+        });
+        const data = await res.json();
+        if (data.advice) {
+          setMessage(data.advice);
+          announce(data.advice, 'medium');
+        }
+      } catch (e) {
+        console.error(e);
+        announce("I couldn't verify that, please consult a doctor.", 'medium');
+      }
+    };
+
+    recognition.start();
+  };
+
   const checkConflict = async (drugA: string, drugB: string) => {
     console.log(`Checking conflict between ${drugA} and ${drugB}...`);
 
@@ -98,33 +135,41 @@ export default function Home() {
 
       const data = await response.json();
 
-      if (data.hasInteraction && data.severity === 'high') {
-        const alertMsg = `DANGER! ${drugA} and ${drugB} have a SEVERE interaction. Do not take them together!`;
-        setMessage(alertMsg);
+      if (data.hasInteraction) {
+        // Construct message
+        const alertPrefix = data.severity === 'high' ? "DANGER!" : "WARNING:";
+        const baseMsg = `${alertPrefix} ${data.description}`;
+        const fullMsg = data.proactiveQuestion ? `${baseMsg} ${data.proactiveQuestion}` : baseMsg;
 
-        if (typeof navigator !== 'undefined' && "vibrate" in navigator) {
+        setMessage(fullMsg);
+
+        if (data.severity === 'high' && typeof navigator !== 'undefined' && "vibrate" in navigator) {
           navigator.vibrate([500, 200, 500, 200, 1000]);
         }
 
-        announce(alertMsg, 'high');
+        // Announce and listen if question exists
+        announce(fullMsg, 'high', () => {
+          if (data.proactiveQuestion) {
+            startListening(data.proactiveQuestion);
+          }
+        });
+
+        // Visual
+        triggerAlert(baseMsg);
       } else {
-        // Safe / No interaction found
+        // Safe / No interaction logic
         if (data.description === "AI Analysis unavailable.") {
-          const errorMsg = "Could not verify interactions (AI Unavailable).";
-          setMessage(errorMsg);
-          announce(errorMsg, 'low');
+          setMessage("Could not verify interactions (AI Unavailable).");
+          announce("Could not verify interactions.", 'low');
         } else {
           const safeMsg = `Safe. No known interactions between ${drugA} and ${drugB}.`;
           setMessage(safeMsg);
-          // Optional: Don't announce "Safe" every time to avoid spam, or announce it briefly. 
-          // The user asked "otherwise it should return no risk".
           announce("No risk detected.", 'low');
         }
       }
 
     } catch (e) {
       console.error(e);
-      // Silent error for background checks to avoid spamming user
     }
   };
 
@@ -149,8 +194,18 @@ export default function Home() {
       <div className="w-full bg-slate-900 p-4 flex flex-col gap-3 z-10 border-t border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
 
         {/* Status Message */}
-        <div className="bg-slate-800 p-3 rounded-xl border border-slate-700 w-full text-center min-h-[60px] flex items-center justify-center">
-          <p className="text-sm md:text-lg font-mono text-yellow-300">{message}</p>
+        <div className={`bg-slate-800 p-3 rounded-xl border border-slate-700 w-full text-center min-h-[60px] flex items-center justify-center transition-colors ${isListening ? "border-blue-500 ring-2 ring-blue-500/50" : ""}`}>
+          {isListening ? (
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+              </span>
+              <p className="text-blue-300 font-bold animate-pulse">Listening...</p>
+            </div>
+          ) : (
+            <p className="text-sm md:text-lg font-mono text-yellow-300">{message}</p>
+          )}
         </div>
 
         {/* Action Buttons */}

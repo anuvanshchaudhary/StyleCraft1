@@ -1,9 +1,24 @@
 import spread from 'google-gax'; // Used internally by @google-cloud/vision
 import vision from '@google-cloud/vision';
 
-// Initialize the client.
-// Relies on GOOGLE_APPLICATION_CREDENTIALS environment variable or default credentials.
-const client = new vision.ImageAnnotatorClient();
+// function to initialize the vision client
+const getClient = () => {
+    // Check for environment variable strings (Vercel/Production)
+    if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+        try {
+            const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+            return new vision.ImageAnnotatorClient({ credentials });
+        } catch (error) {
+            console.error("Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON", error);
+        }
+    }
+
+    // Fallback to local file (Development) if GOOGLE_APPLICATION_CREDENTIALS is set,
+    // or allow the default auto-discovery.
+    return new vision.ImageAnnotatorClient();
+};
+
+const client = getClient();
 
 export async function extractTextFromImage(base64Image: string): Promise<string> {
     try {

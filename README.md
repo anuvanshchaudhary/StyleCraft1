@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Stylecraft CSS Labs
 
-## Getting Started
+**Stylecraft CSS Labs** is an interactive, browser-based suite of tools designed to help developers and designers experiment, visualize, and generate CSS code in real-time. The entire application is built with a striking **Neobrutalist design system** featuring bold colors, sharp shadows, and robust typography.
 
-First, run the development server:
+## ✨ Features & Labs
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The application features five dedicated laboratory environments, each focusing on a specific domain of CSS:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*   🔲 **Border Lab (`border-lab.html`)**: Visually manipulate `border`, `border-radius`, `outline`, and standard harsh shadows.
+*   📝 **Typography Lab (`typography-lab.html`)**: Play with font weights, line heights, letter spacing, text alignment, and text decoration on a live, editable paragraph.
+*   📦 **Box Model Lab (`box-model-lab.html`)**: A visual playground to understand how `padding`, `margin`, `width`, `height`, and `box-sizing` affect DOM elements.
+*   🌀 **Warp & Motion Lab (`warp-motion-lab.html`)**: Apply dynamic 2D/3D transformations (rotate, scale, skew, perspective) alongside CSS filters (blur, brightness, contrast, hue-rotate).
+*   🌈 **Color & Blending Lab (`functions-lab.html`)**: Master complex features like the `color-mix()` API, generate dynamic background combinations (`linear-gradient`, `radial-gradient`, `conic-gradient`), and explore all 16 `mix-blend-mode` interactions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*(Note: Every lab features a **live code output block** that instantly generates the raw CSS you need to copy and paste into your own projects!)*
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Technology Stack
 
-## Learn More
+Stylecraft is entirely plug-and-play and framework-agnostic. 
 
-To learn more about Next.js, take a look at the following resources:
+*   **HTML5 & Vanilla CSS3** (Leveraging modern CSS variables for theme management)
+*   **Vanilla JavaScript** (No React, Vue, or heavy state management libraries required)
+*   **Tailwind CSS v4** (Powered directly via Browser CDN with a custom `@theme` configuration for the Neobrutalist design tokens)
+*   **Google Fonts** (Archivo Black + Space Mono)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 How to Run Locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Because Stylecraft is built purely with client-side, vanilla web technologies, there are no build steps, package managers, or local dependencies to install.
 
-## Deploy on Vercel
+1. Clone the repository down to your local machine:
+   ```bash
+   git clone https://github.com/anuvanshchaudhary/StyleCraft1.git
+   ```
+2. Navigate to the project directory.
+3. Simply double-click the `index.html` file to launch the application in your default web browser!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Developed with a focus on simplicity, performance, and brutalist aesthetics.*

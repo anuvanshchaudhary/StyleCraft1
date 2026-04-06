@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylecraft - Keyframe Studio</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Tailwind V4 Browser CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <style type="text/tailwindcss">
+        @theme {
+            --color-neo-yellow: #FFD100;
+            --color-neo-black: #000000;
+            --color-neo-pink: #FF00FF;
+            --color-neo-green: #00FF41;
+            --color-neo-white: #FFFFFF;
+
+            --font-heading: "Archivo Black", sans-serif;
+            --font-body: "Space Mono", monospace;
+
+            --shadow-neo: 8px 8px 0px #000000;
+            --shadow-neo-sm: 4px 4px 0px #000000;
+            --shadow-neo-lg: 12px 12px 0px #000000;
+        }
+
+        /* Custom details/summary style for accordions */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Keyframe Presets */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { scale: 1; opacity: 1; }
+            50% { scale: 1.1; opacity: 0.8; }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        @keyframes swoosh {
+            0% { transform: translateX(-150%) skewX(-15deg); opacity: 0; }
+            50% { transform: translateX(0) skewX(-15deg); opacity: 1; }
+            100% { transform: translateX(150%) skewX(-15deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-neo-yellow font-body">
+
+    <!-- Global Header -->
+    <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
+        <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
+            <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
+                STYLECRAFT
+            </a>
+            <nav class="flex flex-wrap gap-2 md:gap-4">
+                <a href="index.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-neo-sm">
+                    HOME
+                </a>
+                <a href="labs.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-neo-sm">
+                    LABS
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="p-4 md:p-8">
+        <!-- Lab Header -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-4xl md:text-6xl font-heading uppercase text-neo-black drop-shadow-[4px_4px_0px_#FFFFFF]">
+                KEYFRAME STUDIO
+            </h1>
+            <div class="flex gap-4">
+                <a href="labs.html" class="flex items-center gap-2 px-4 py-2 bg-neo-white border-3 border-neo-black shadow-neo font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    LABS
+                </a>
+                <button id="btn-reset" class="flex items-center gap-2 px-4 py-2 bg-neo-white border-3 border-neo-black shadow-neo font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    RESET
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Controls Sidebar -->
+            <aside class="lg:col-span-3 h-fit flex flex-col gap-4">
+                
+                <!-- Animation Config -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Animation
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Preset</label>
+                            <select id="animationName" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="float">Float</option>
+                                <option value="spin">Spin</option>
+                                <option value="pulse">Pulse</option>
+                                <option value="bounce">Bounce</option>
+                                <option value="shake">Shake</option>
+                                <option value="heartbeat">Heartbeat</option>
+                                <option value="swoosh">Swoosh</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div>
+                             <div class="flex justify-between mb-1"><label class="font-bold text-sm">Duration</label><span id="duration-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">2s</span></div>
+                            <input type="range" id="duration" min="0.1" max="10" step="0.1" value="2">
+                        </div>
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Timing Function</label>
+                            <select id="timingFunction" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="ease">ease</option>
+                                <option value="linear">linear</option>
+                                <option value="ease-in">ease-in</option>
+                                <option value="ease-out">ease-out</option>
+                                <option value="ease-in-out">ease-in-out</option>
+                            </select>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Advanced -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Playback
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                         <div>
+                             <div class="flex justify-between mb-1"><label class="font-bold text-sm">Delay</label><span id="delay-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0s</span></div>
+                            <input type="range" id="delay" min="0" max="5" step="0.1" value="0">
+                        </div>
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Iteration Count</label>
+                            <select id="iterationCount" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="infinite">infinite</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Direction</label>
+                            <select id="direction" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="normal">normal</option>
+                                <option value="reverse">reverse</option>
+                                <option value="alternate">alternate</option>
+                                <option value="alternate-reverse">alternate-reverse</option>
+                            </select>
+                        </div>
+                        <div>
+                             <label class="font-bold text-sm block mb-1">Fill Mode</label>
+                            <select id="fillMode" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="both">both</option>
+                                <option value="forwards">forwards</option>
+                                <option value="backwards">backwards</option>
+                                <option value="none">none</option>
+                            </select>
+                        </div>
+                        <div>
+                             <label class="font-bold text-sm block mb-1">Play State</label>
+                            <select id="playState" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="running">running</option>
+                                <option value="paused">paused</option>
+                            </select>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Transform Origin -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Transform Origin
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                        <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Origin X</label><span id="originX-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">50%</span></div><input type="range" id="originX" min="0" max="100" value="50"></div>
+                        <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Origin Y</label><span id="originY-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">50%</span></div><input type="range" id="originY" min="0" max="100" value="50"></div>
+                    </div>
+                </details>
+
+            </aside>
+
+            <!-- Preview -->
+            <section class="lg:col-span-6 flex flex-col gap-4">
+                <div id="preview-area" class="flex-1 bg-white border-3 border-neo-black shadow-neo p-8 flex items-center justify-center min-h-[500px] relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 pointer-events-none"
+                        style="background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 20px 20px;">
+                    </div>
+                    
+                    <div id="preview-box" class="w-48 h-48 bg-indigo-400 border-3 border-neo-black shadow-neo flex flex-col items-center justify-center font-bold text-xl text-center p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M12 2v20"/><path d="m17 7-5-5-5 5"/><path d="m17 17-5 5-5-5"/></svg>
+                        ANIMATE
+                    </div>
+                </div>
+            </section>
+
+            <!-- CSS Output -->
+            <aside class="lg:col-span-3 h-fit">
+                <div class="bg-neo-black text-white border-3 border-neo-black shadow-neo-sm overflow-hidden">
+                    <div class="flex items-center justify-between p-3 border-b-3 border-white/20 bg-neo-black">
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                        </div>
+                        <span class="text-xs font-bold font-body text-gray-400">CSS OUTPUT</span>
+                    </div>
+                    <div class="p-4 overflow-x-auto relative group bg-[#111111]">
+                        <pre id="css-code" class="text-sm font-body text-green-400 m-0"></pre>
+                    </div>
+                </div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/keyframe-lab.js"></script>
+</body>
+</html>

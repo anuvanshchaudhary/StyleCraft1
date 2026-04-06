@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylecraft - Labs Hub</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Tailwind V4 Browser CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <style type="text/tailwindcss">
+        @theme {
+            --color-neo-yellow: #FFD100;
+            --color-neo-black: #000000;
+            --color-neo-pink: #FF00FF;
+            --color-neo-green: #00FF41;
+            --color-neo-white: #FFFFFF;
+
+            --font-heading: "Archivo Black", sans-serif;
+            --font-body: "Space Mono", monospace;
+
+            --shadow-neo: 8px 8px 0px #000000;
+            --shadow-neo-sm: 4px 4px 0px #000000;
+            --shadow-neo-lg: 12px 12px 0px #000000;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-neo-yellow font-body">
+
+    <!-- Global Header -->
+    <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
+        <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
+                STYLECRAFT
+            </a>
+
+            <!-- Navigation -->
+            <nav class="flex flex-wrap gap-2 md:gap-4">
+                <a href="index.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-neo-sm">
+                    HOME
+                </a>
+                <a href="labs.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-pink text-white shadow-neo-sm">
+                    LABS
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="p-4 md:p-8">
+        <div class="container mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-5xl md:text-7xl font-heading uppercase text-neo-black mb-4 drop-shadow-[6px_6px_0px_#FFFFFF]">
+                    CSS LABS
+                </h1>
+                <p class="text-xl font-bold max-w-2xl mx-auto">
+                    Choose your lab and dive deep into CSS properties. Each lab is a full-screen playground.
+                </p>
+            </div>
+
+            <!-- Labs Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Border Lab -->
+                <a href="border-lab.html" class="group bg-neo-white border-3 border-neo-black shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all overflow-hidden block">
+                    <div class="bg-neo-pink p-6 border-b-3 border-neo-black flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-neo-black"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-heading uppercase mb-3 group-hover:text-neo-pink transition-colors">
+                            Border & Shape Lab
+                        </h2>
+                        <p class="font-bold text-sm mb-4">
+                            Master borders, outlines, shadows, and border-radius. Create shapes that pop!
+                        </p>
+                        <div class="inline-block px-4 py-2 bg-neo-black text-neo-white font-bold uppercase text-sm border-2 border-neo-black group-hover:bg-neo-pink group-hover:text-neo-black transition-colors">
+                            ENTER LAB &rarr;
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Typography Lab -->
+                <a href="typography-lab.html" class="group bg-neo-white border-3 border-neo-black shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all overflow-hidden block">
+                    <div class="bg-neo-yellow p-6 border-b-3 border-neo-black flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-neo-black"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-heading uppercase mb-3 group-hover:text-neo-pink transition-colors">
+                            Typography & Text Lab
+                        </h2>
+                        <p class="font-bold text-sm mb-4">
+                            Font sizing, spacing, decoration, and text effects. Make words beautiful.
+                        </p>
+                        <div class="inline-block px-4 py-2 bg-neo-black text-neo-white font-bold uppercase text-sm border-2 border-neo-black group-hover:bg-neo-yellow group-hover:text-neo-black transition-colors">
+                            ENTER LAB &rarr;
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Box Model Lab -->
+                <a href="box-model-lab.html" class="group bg-neo-white border-3 border-neo-black shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all overflow-hidden block">
+                    <div class="bg-purple-400 p-6 border-b-3 border-neo-black flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-neo-black"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-heading uppercase mb-3 group-hover:text-purple-400 transition-colors">
+                            Box Model & Sizing Lab
+                        </h2>
+                        <p class="font-bold text-sm mb-4">
+                            Understand padding, margin, and the box model. Control space like a pro.
+                        </p>
+                        <div class="inline-block px-4 py-2 bg-neo-black text-neo-white font-bold uppercase text-sm border-2 border-neo-black group-hover:bg-purple-400 group-hover:text-neo-black transition-colors">
+                            ENTER LAB &rarr;
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Motion Lab -->
+                <a href="warp-motion-lab.html" class="group bg-neo-white border-3 border-neo-black shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all overflow-hidden block">
+                    <div class="bg-cyan-400 p-6 border-b-3 border-neo-black flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-neo-black"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-heading uppercase mb-3 group-hover:text-cyan-400 transition-colors">
+                            Warp & Motion Lab
+                        </h2>
+                        <p class="font-bold text-sm mb-4">
+                            Transforms, transitions, filters, and 3D space. Bring your designs to life!
+                        </p>
+                        <div class="inline-block px-4 py-2 bg-neo-black text-neo-white font-bold uppercase text-sm border-2 border-neo-black group-hover:bg-cyan-400 group-hover:text-neo-black transition-colors">
+                            ENTER LAB &rarr;
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Animation Lab -->
+                <a href="keyframe-lab.html" class="group bg-neo-white border-3 border-neo-black shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all overflow-hidden block">
+                    <div class="bg-indigo-400 p-6 border-b-3 border-neo-black flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-neo-black"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></svg>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-heading uppercase mb-3 group-hover:text-indigo-400 transition-colors">
+                            Keyframe Studio Lab
+                        </h2>
+                        <p class="font-bold text-sm mb-4">
+                            Create multi-step animations. Control time, direction, and easing.
+                        </p>
+                        <div class="inline-block px-4 py-2 bg-neo-black text-neo-white font-bold uppercase text-sm border-2 border-neo-black group-hover:bg-indigo-400 group-hover:text-neo-black transition-colors">
+                            ENTER LAB &rarr;
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

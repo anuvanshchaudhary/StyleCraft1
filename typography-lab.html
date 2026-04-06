@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylecraft - Typography Lab</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Tailwind V4 Browser CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <style type="text/tailwindcss">
+        @theme {
+            --color-neo-yellow: #FFD100;
+            --color-neo-black: #000000;
+            --color-neo-pink: #FF00FF;
+            --color-neo-green: #00FF41;
+            --color-neo-white: #FFFFFF;
+
+            --font-heading: "Archivo Black", sans-serif;
+            --font-body: "Space Mono", monospace;
+
+            --shadow-neo: 8px 8px 0px #000000;
+            --shadow-neo-sm: 4px 4px 0px #000000;
+            --shadow-neo-lg: 12px 12px 0px #000000;
+        }
+
+        /* Custom details/summary style for accordions */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-neo-yellow font-body">
+
+    <!-- Global Header -->
+    <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
+        <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
+            <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
+                STYLECRAFT
+            </a>
+            <nav class="flex flex-wrap gap-2 md:gap-4">
+                <a href="index.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-neo-sm">
+                    HOME
+                </a>
+                <a href="labs.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-neo-sm">
+                    LABS
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="p-4 md:p-8">
+        <!-- Lab Header -->
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-4xl md:text-6xl font-heading uppercase text-neo-black drop-shadow-[4px_4px_0px_#FFFFFF]">
+                TYPOGRAPHY LAB
+            </h1>
+            <div class="flex gap-4">
+                <a href="labs.html" class="flex items-center gap-2 px-4 py-2 bg-neo-white border-3 border-neo-black shadow-neo font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    LABS
+                </a>
+                <button id="btn-reset" class="flex items-center gap-2 px-4 py-2 bg-neo-white border-3 border-neo-black shadow-neo font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-neo-sm transition-all cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    RESET
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Controls Sidebar -->
+            <aside class="lg:col-span-3 h-fit flex flex-col gap-4">
+                
+                <!-- Font Basics -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Font Basics
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                        <div>
+                            <div class="flex justify-between mb-1"><label class="font-bold text-sm">Font Size</label><span id="fontSize-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">48px</span></div>
+                            <input type="range" id="fontSize" min="8" max="200" value="48">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1"><label class="font-bold text-sm">Font Weight</label><span id="fontWeight-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">700</span></div>
+                            <input type="range" id="fontWeight" min="100" max="900" step="100" value="700">
+                        </div>
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Font Family</label>
+                            <select id="fontFamily" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="'Archivo Black', sans-serif">Archivo Black (Neo)</option>
+                                <option value="'Space Mono', monospace">Space Mono (Code)</option>
+                                <option value="'Playfair Display', serif">Playfair Display (Serif)</option>
+                                <option value="'Outfit', sans-serif">Outfit (Sans)</option>
+                                <option value="system-ui, sans-serif">System Sans</option>
+                            </select>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Spacing & Alignment -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Spacing & Alignment
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                        <div>
+                            <div class="flex justify-between mb-1"><label class="font-bold text-sm">Line Height</label><span id="lineHeight-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">1.2</span></div>
+                            <input type="range" id="lineHeight" min="0.5" max="3" step="0.1" value="1.2">
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1"><label class="font-bold text-sm">Letter Spacing</label><span id="letterSpacing-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0px</span></div>
+                            <input type="range" id="letterSpacing" min="-10" max="50" value="0">
+                        </div>
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Text Align</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button data-name="textAlign" data-value="left" class="attr-btn bg-white border-2 border-neo-black p-2 font-bold hover:bg-neo-pink transition-colors">Left</button>
+                                <button data-name="textAlign" data-value="center" class="attr-btn bg-neo-pink border-2 border-neo-black p-2 font-bold hover:bg-neo-yellow transition-colors">Center</button>
+                                <button data-name="textAlign" data-value="right" class="attr-btn bg-white border-2 border-neo-black p-2 font-bold hover:bg-neo-pink transition-colors">Right</button>
+                                <button data-name="textAlign" data-value="justify" class="attr-btn bg-white border-2 border-neo-black p-2 font-bold hover:bg-neo-pink transition-colors">Just</button>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Decoration -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Decoration & Style
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Text Transform</label>
+                            <select id="textTransform" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="none">none</option>
+                                <option value="uppercase">uppercase</option>
+                                <option value="lowercase">lowercase</option>
+                                <option value="capitalize">capitalize</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-sm block mb-1">Text Decoration</label>
+                            <select id="textDecoration" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
+                                <option value="none">none</option>
+                                <option value="underline">underline</option>
+                                <option value="line-through">line-through</option>
+                                <option value="overline">overline</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="fontStyleItalic" class="sr-only peer">
+                                <div class="w-12 h-6 bg-neo-black border-2 border-neo-black peer-focus:outline-none peer-checked:bg-neo-pink peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-2 after:border-neo-black after:h-4 after:w-4 after:transition-all"></div>
+                            </label>
+                            <span class="font-bold text-sm">Italic</span>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Colors -->
+                <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
+                    <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
+                        Colors
+                    </summary>
+                    <div class="p-4 flex flex-col gap-4">
+                        <div><label class="font-bold text-sm block mb-1">Text Color</label><input type="color" id="color" value="#000000" class="w-10 h-10 border-3 border-neo-black p-0 cursor-pointer"></div>
+                        <div><label class="font-bold text-sm block mb-1">Container Background</label><input type="color" id="backgroundColor" value="#FFFFFF" class="w-10 h-10 border-3 border-neo-black p-0 cursor-pointer"></div>
+                    </div>
+                </details>
+
+            </aside>
+
+            <!-- Preview -->
+            <section class="lg:col-span-6 flex flex-col gap-4">
+                <div id="preview-container" class="flex-1 bg-white border-3 border-neo-black shadow-neo p-8 min-h-[500px] relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 pointer-events-none"
+                        style="background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 20px 20px;">
+                    </div>
+                    <div id="preview-text" class="relative z-10 w-full outline-none transition-all duration-100 ease-in-out p-4" contenteditable="true">
+                        Stylecraft Typography<br><br>Click here to edit this text.<br><br>Adjust line-height and alignment to see how they impact a standard paragraph layout like this one. Notice how font-weight behaves smoothly with variable fonts such as Outfit or Space Mono.
+                    </div>
+                </div>
+            </section>
+
+            <!-- CSS Output -->
+            <aside class="lg:col-span-3 h-fit">
+                <div class="bg-neo-black text-white border-3 border-neo-black shadow-neo-sm overflow-hidden">
+                    <div class="flex items-center justify-between p-3 border-b-3 border-white/20 bg-neo-black">
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                            <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                        </div>
+                        <span class="text-xs font-bold font-body text-gray-400">CSS OUTPUT</span>
+                    </div>
+                    <div class="p-4 overflow-x-auto relative group bg-[#111111]">
+                        <pre id="css-code" class="text-sm font-body text-green-400 m-0"></pre>
+                    </div>
+                </div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/typography-lab.js"></script>
+</body>
+</html>

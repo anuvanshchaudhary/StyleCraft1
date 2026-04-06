@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neo-yellow: #FFD100;
+  --color-neo-black: #000000;
+  --color-neo-pink: #FF00FF;
+  --color-neo-green: #00FF41;
+  --color-neo-white: #FFFFFF;
+
+  --font-heading: "Archivo Black", sans-serif;
+  --font-body: "Space Mono", monospace;
+
+  --shadow-neo: 8px 8px 0px #000000;
+  --shadow-neo-sm: 4px 4px 0px #000000;
+  --shadow-neo-lg: 12px 12px 0px #000000;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-neo-yellow);
+    color: var(--color-neo-black);
+    font-family: var(--font-body);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FF00FF;
+  border: 2px solid #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00FF41;
+}
+
+/* Range Input Styling */
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  background: #FF00FF;
+  border: 2px solid #000000;
+  cursor: pointer;
+  margin-top: -8px;
+  box-shadow: 2px 2px 0px #000000;
+  transition: all 0.1s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  background: #00FF41;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #000000;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #000000;
+  border-radius: 0px;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+/* Accordion Active State */
+details[open] > summary {
+  background-color: var(--color-neo-yellow) !important;
+}

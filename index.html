@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylecraft - Home</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Tailwind V4 Browser CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <style type="text/tailwindcss">
+        @theme {
+            --color-neo-yellow: #FFD100;
+            --color-neo-black: #000000;
+            --color-neo-pink: #FF00FF;
+            --color-neo-green: #00FF41;
+            --color-neo-white: #FFFFFF;
+
+            --font-heading: "Archivo Black", sans-serif;
+            --font-body: "Space Mono", monospace;
+
+            --shadow-neo: 8px 8px 0px #000000;
+            --shadow-neo-sm: 4px 4px 0px #000000;
+            --shadow-neo-lg: 12px 12px 0px #000000;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-neo-yellow font-body">
+
+    <!-- Global Header -->
+    <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
+        <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
+                STYLECRAFT
+            </a>
+
+            <!-- Navigation -->
+            <nav class="flex flex-wrap gap-2 md:gap-4">
+                <a href="index.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-pink text-white shadow-neo-sm">
+                    HOME
+                </a>
+                <a href="labs.html" class="px-4 py-2 font-bold uppercase border-3 border-neo-black transition-all bg-neo-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-neo-sm">
+                    LABS
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 py-20 md:py-32">
+        <div class="text-center mb-16">
+            <h1 class="text-6xl md:text-9xl font-heading uppercase text-neo-black leading-tight mb-8 drop-shadow-[8px_8px_0px_#FFFFFF]">
+                STOP CODING.<br />START CRAFTING.
+            </h1>
+            <p class="text-xl md:text-2xl font-bold max-w-3xl mx-auto mb-12">
+                Master CSS through interactive, visual labs. No boring docs. Just pure, funky experimentation.
+            </p>
+        </div>
+
+        <!-- Interactive Teaser -->
+        <div class="max-w-2xl mx-auto mb-16">
+            <div class="bg-white border-3 border-neo-black shadow-neo-lg p-8 md:p-16">
+                <div class="relative h-64 flex items-center justify-center">
+                    <div id="shape-teaser" class="w-44 h-44 bg-neo-pink border-3 border-neo-black transition-all duration-500 ease-in-out flex items-center justify-center text-white font-bold text-xl">
+                        FUNKY
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center">
+            <a href="labs.html" class="inline-block px-12 py-6 bg-neo-pink text-white text-3xl md:text-4xl font-heading uppercase border-3 border-neo-black shadow-neo-lg hover:translate-x-1 hover:translate-y-1 hover:shadow-neo transition-all">
+                START PLAYING
+            </a>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="container mx-auto px-4 py-20">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white border-3 border-neo-black shadow-neo p-8">
+                <!-- SVG Icon (Sparkles) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <h3 class="text-2xl font-heading uppercase mb-4">5 DEEP LABS</h3>
+                <p class="font-bold">Border, Layout, and others. Each lab is a playground for mastery.</p>
+            </div>
+            <div class="bg-white border-3 border-neo-black shadow-neo p-8">
+                <!-- SVG Icon (Zap) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <h3 class="text-2xl font-heading uppercase mb-4">INSTANT FEEDBACK</h3>
+                <p class="font-bold">See your CSS changes in real-time. No refresh. No compile. Just pure visual magic.</p>
+            </div>
+            <div class="bg-white border-3 border-neo-black shadow-neo p-8">
+                <!-- SVG Icon (Palette) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.836-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                <h3 class="text-2xl font-heading uppercase mb-4">NEO-BRUTALIST</h3>
+                <p class="font-bold">Bold borders. Funky colors. Hard shadows.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple shape animation for Home
+        const shapeTeaser = document.getElementById('shape-teaser');
+        const shapes = [
+            { borderRadius: '0px', rotate: '0deg', scale: 1 },
+            { borderRadius: '50%', rotate: '45deg', scale: 1.1 },
+            { borderRadius: '20px', rotate: '90deg', scale: 0.9 },
+            { borderRadius: '50% 0 50% 0', rotate: '180deg', scale: 1 },
+            { borderRadius: '0 50% 0 50%', rotate: '270deg', scale: 1.05 },
+        ];
+        let shapeIndex = 0;
+
+        setInterval(() => {
+            shapeIndex = (shapeIndex + 1) % shapes.length;
+            const currentShape = shapes[shapeIndex];
+            shapeTeaser.style.borderRadius = currentShape.borderRadius;
+            shapeTeaser.style.transform = `rotate(${currentShape.rotate}) scale(${currentShape.scale})`;
+        }, 2000);
+    </script>
+</body>
+</html>

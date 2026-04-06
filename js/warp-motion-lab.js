@@ -10,8 +10,6 @@ const initialState = {
     blur: 0,
     brightness: 100,
     contrast: 100,
-    grayscale: 0,
-    hueRotate: 0,
     duration: 0.3,
     timingFunction: 'ease'
 };
@@ -32,8 +30,6 @@ const inputs = {
     blur: document.getElementById('blur'),
     brightness: document.getElementById('brightness'),
     contrast: document.getElementById('contrast'),
-    grayscale: document.getElementById('grayscale'),
-    hueRotate: document.getElementById('hueRotate'),
     duration: document.getElementById('duration'),
     timingFunction: document.getElementById('timingFunction')
 };
@@ -57,9 +53,7 @@ function updatePreview() {
     const filterStr = `
         blur(${store.blur}px) 
         brightness(${store.brightness}%) 
-        contrast(${store.contrast}%) 
-        grayscale(${store.grayscale}%) 
-        hue-rotate(${store.hueRotate}deg)
+        contrast(${store.contrast}%)
     `.replace(/\s+/g, ' ').trim();
     previewBox.style.transform = transformStr;
     previewBox.style.filter = filterStr;
@@ -67,9 +61,9 @@ function updatePreview() {
     Object.keys(displays).forEach(key => {
         if (displays[key]) {
             let unit = '';
-            if (key === 'rotate' || key.includes('rotate') || key === 'rotateX' || key === 'rotateY' || key === 'skewX' || key === 'hueRotate') unit = 'deg';
+            if (key === 'rotate' || key.includes('rotate') || key === 'rotateX' || key === 'rotateY' || key === 'skewX') unit = 'deg';
             else if (key === 'translateX' || key === 'translateY' || key === 'blur' || key === 'perspective') unit = 'px';
-            else if (key === 'brightness' || key === 'contrast' || key === 'grayscale') unit = '%';
+            else if (key === 'brightness' || key === 'contrast') unit = '%';
             else if (key === 'duration') unit = 's';
             displays[key].innerText = store[key] + unit;
         }

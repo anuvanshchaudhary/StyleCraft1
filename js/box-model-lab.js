@@ -1,7 +1,6 @@
 const initialState = {
     width: 200,
     height: 200,
-    boxSizing: 'content-box',
     padding: 20,
     paddingTop: 20,
     paddingRight: 20,
@@ -16,22 +15,16 @@ const initialState = {
     containerColor: '#FFFFFF',
     showLabels: true
 };
-
 let store = { ...initialState };
-
-// DOM Elements
 const previewBox = document.getElementById('preview-box');
 const outerContainer = document.getElementById('outer-container');
 const cssCodeBlock = document.getElementById('css-code');
 const resetButton = document.getElementById('btn-reset');
 const contentVisualizer = document.getElementById('content-visualizer');
 const marginVisualizer = document.getElementById('margin-visualizer');
-
-// Inputs
 const inputs = {
     width: document.getElementById('width'),
     height: document.getElementById('height'),
-    boxSizing: document.getElementById('boxSizing'),
     padding: document.getElementById('padding'),
     paddingTop: document.getElementById('paddingTop'),
     paddingRight: document.getElementById('paddingRight'),
@@ -46,8 +39,6 @@ const inputs = {
     containerColor: document.getElementById('containerColor'),
     showLabels: document.getElementById('showLabels')
 };
-
-// Value Displays
 const displays = {};
 Object.keys(inputs).forEach(key => {
     if (inputs[key] && inputs[key].type === 'range') {
@@ -55,27 +46,19 @@ Object.keys(inputs).forEach(key => {
         if (displayEl) displays[key] = displayEl;
     }
 });
-
 function updatePreview() {
-    // Apply styles to preview box
     previewBox.style.width = `${store.width}px`;
     previewBox.style.height = `${store.height}px`;
-    previewBox.style.boxSizing = store.boxSizing;
-    
     previewBox.style.paddingTop = `${store.paddingTop}px`;
     previewBox.style.paddingRight = `${store.paddingRight}px`;
     previewBox.style.paddingBottom = `${store.paddingBottom}px`;
     previewBox.style.paddingLeft = `${store.paddingLeft}px`;
-    
     previewBox.style.marginTop = `${store.marginTop}px`;
     previewBox.style.marginRight = `${store.marginRight}px`;
     previewBox.style.marginBottom = `${store.marginBottom}px`;
     previewBox.style.marginLeft = `${store.marginLeft}px`;
-    
     previewBox.style.backgroundColor = store.backgroundColor;
     outerContainer.style.backgroundColor = store.containerColor;
-
-    // Visual indicators
     if (store.showLabels) {
         contentVisualizer.style.opacity = '1';
         marginVisualizer.classList.add('border-dashed');
@@ -83,38 +66,26 @@ function updatePreview() {
         contentVisualizer.style.opacity = '0';
         marginVisualizer.classList.remove('border-dashed');
     }
-
-    // Update displays
     Object.keys(displays).forEach(key => {
         if (displays[key]) {
             displays[key].innerText = store[key] + 'px';
         }
     });
-
-    // Generate CSS Code
     const cssString = `.element {
   width: ${store.width}px;
   height: ${store.height}px;
-  box-sizing: ${store.boxSizing};
-  
-  /* Padding */
   padding-top: ${store.paddingTop}px;
   padding-right: ${store.paddingRight}px;
   padding-bottom: ${store.paddingBottom}px;
   padding-left: ${store.paddingLeft}px;
-  
-  /* Margin */
   margin-top: ${store.marginTop}px;
   margin-right: ${store.marginRight}px;
   margin-bottom: ${store.marginBottom}px;
   margin-left: ${store.marginLeft}px;
-  
   background-color: ${store.backgroundColor};
 }`;
-    
     cssCodeBlock.textContent = cssString;
 }
-
 function syncInputs() {
     Object.keys(inputs).forEach(key => {
         if (!inputs[key]) return;
@@ -125,16 +96,11 @@ function syncInputs() {
         }
     });
 }
-
-// Event Listeners
 Object.keys(inputs).forEach(key => {
     if (!inputs[key]) return;
-    
     inputs[key].addEventListener('input', (e) => {
         const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         store[key] = val;
-
-        // Unified Padding/Margin linkage
         if (key === 'padding') {
             ['Top', 'Right', 'Bottom', 'Left'].forEach(side => {
                 store[`padding${side}`] = val;
@@ -147,17 +113,13 @@ Object.keys(inputs).forEach(key => {
                 inputs[`margin${side}`].value = val;
             });
         }
-
         updatePreview();
     });
 });
-
 resetButton.addEventListener('click', () => {
     store = { ...initialState };
     syncInputs();
     updatePreview();
 });
-
-// Initialize
 syncInputs();
 updatePreview();

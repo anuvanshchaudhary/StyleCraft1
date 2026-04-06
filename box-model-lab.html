@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stylecraft - Box Model Lab</title>
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <!-- Tailwind V4 Browser CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
     <style type="text/tailwindcss">
         @theme {
@@ -17,16 +14,12 @@
             --color-neo-pink: #FF00FF;
             --color-neo-green: #00FF41;
             --color-neo-white: #FFFFFF;
-
             --font-heading: "Archivo Black", sans-serif;
             --font-body: "Space Mono", monospace;
-
             --shadow-neo: 8px 8px 0px #000000;
             --shadow-neo-sm: 4px 4px 0px #000000;
             --shadow-neo-lg: 12px 12px 0px #000000;
         }
-
-        /* Custom details/summary style for accordions */
         details > summary {
             list-style: none;
         }
@@ -36,8 +29,6 @@
     </style>
 </head>
 <body class="min-h-screen bg-neo-yellow font-body">
-
-    <!-- Global Header -->
     <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
         <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
             <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
@@ -53,9 +44,7 @@
             </nav>
         </div>
     </header>
-
     <div class="p-4 md:p-8">
-        <!-- Lab Header -->
         <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <h1 class="text-4xl md:text-6xl font-heading uppercase text-neo-black drop-shadow-[4px_4px_0px_#FFFFFF]">
                 BOX MODEL LAB
@@ -71,13 +60,8 @@
                 </button>
             </div>
         </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Controls Sidebar -->
             <aside class="lg:col-span-3 h-fit flex flex-col gap-4">
-                
-                <!-- Dimensions -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Dimensions
@@ -91,17 +75,8 @@
                             <div class="flex justify-between mb-1"><label class="font-bold text-sm">Height</label><span id="height-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">200px</span></div>
                             <input type="range" id="height" min="50" max="600" value="200">
                         </div>
-                        <div>
-                            <label class="font-bold text-sm block mb-1">Box Sizing</label>
-                            <select id="boxSizing" class="w-full border-3 border-neo-black p-2 bg-white font-body font-bold outline-none focus:ring-2 focus:ring-neo-pink">
-                                <option value="content-box">content-box</option>
-                                <option value="border-box">border-box</option>
-                            </select>
-                        </div>
                     </div>
                 </details>
-
-                <!-- Padding -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Padding
@@ -114,8 +89,6 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Left</label><span id="paddingLeft-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">20px</span></div><input type="range" id="paddingLeft" min="0" max="100" value="20"></div>
                     </div>
                 </details>
-
-                <!-- Margin -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Margin
@@ -128,51 +101,35 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Left</label><span id="marginLeft-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0px</span></div><input type="range" id="marginLeft" min="0" max="100" value="0"></div>
                     </div>
                 </details>
-
-                <!-- Visualization -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Visualization
                     </summary>
                     <div class="p-4 flex flex-col gap-4">
                         <div class="flex items-center gap-3">
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="showLabels" class="sr-only peer" checked>
-                                <div class="w-12 h-6 bg-neo-black border-2 border-neo-black peer-focus:outline-none peer-checked:bg-neo-pink peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-2 after:border-neo-black after:h-4 after:w-4 after:transition-all"></div>
-                            </label>
-                            <span class="font-bold text-sm">Show Labels</span>
+                            <input type="checkbox" id="showLabels" class="w-5 h-5 accent-neo-pink cursor-pointer" checked>
+                            <label for="showLabels" class="font-bold text-sm cursor-pointer">Show Labels</label>
                         </div>
                         <div><label class="font-bold text-sm block mb-1">Element BG</label><input type="color" id="backgroundColor" value="#FFD100" class="w-10 h-10 border-3 border-neo-black p-0 cursor-pointer"></div>
                         <div><label class="font-bold text-sm block mb-1">Outer Container BG</label><input type="color" id="containerColor" value="#FFFFFF" class="w-10 h-10 border-3 border-neo-black p-0 cursor-pointer"></div>
                     </div>
                 </details>
-
             </aside>
-
-            <!-- Preview -->
             <section class="lg:col-span-6 flex flex-col gap-4">
                 <div id="outer-container" class="flex-1 bg-white border-3 border-neo-black shadow-neo p-8 flex items-center justify-center min-h-[500px] relative overflow-hidden">
                     <div class="absolute inset-0 opacity-10 pointer-events-none"
                         style="background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 20px 20px;">
                     </div>
-                    
-                    <!-- Margin Visualizer (ghost element) -->
                     <div id="margin-visualizer" class="relative bg-orange-200/50 border-2 border-dashed border-orange-500 flex items-center justify-center transition-all duration-100">
-                         <!-- The actual element -->
                         <div id="preview-box" class="relative bg-neo-yellow border-3 border-neo-black flex items-center justify-center font-bold text-lg text-center overflow-hidden transition-all duration-100">
-                            <!-- Inner Content (Content area visualizer) -->
                             <div id="content-visualizer" class="w-full h-full bg-blue-200/50 border-2 border-dashed border-blue-500 flex items-center justify-center">
                                 <span id="box-label">CONTENT</span>
                             </div>
-                            
-                            <!-- Padding indicator lines? Maybe just labels -->
                             <div id="label-top" class="absolute top-2 left-1/2 -translate-x-1/2 text-[10px] font-bold bg-white px-1 border border-neo-black pointer-events-none opacity-0 transition-opacity">TOP</div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- CSS Output -->
             <aside class="lg:col-span-3 h-fit">
                 <div class="bg-neo-black text-white border-3 border-neo-black shadow-neo-sm overflow-hidden">
                     <div class="flex items-center justify-between p-3 border-b-3 border-white/20 bg-neo-black">
@@ -188,11 +145,8 @@
                     </div>
                 </div>
             </aside>
-            
         </div>
     </div>
-
-    <!-- Scripts -->
     <script src="js/box-model-lab.js"></script>
 </body>
 </html>

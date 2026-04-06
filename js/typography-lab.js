@@ -11,16 +11,11 @@ const initialState = {
     color: '#000000',
     backgroundColor: '#FFFFFF',
 };
-
 let store = { ...initialState };
-
-// DOM Elements
 const previewText = document.getElementById('preview-text');
 const previewContainer = document.getElementById('preview-container');
 const cssCodeBlock = document.getElementById('css-code');
 const resetButton = document.getElementById('btn-reset');
-
-// Inputs
 const inputs = {
     fontSize: document.getElementById('fontSize'),
     fontWeight: document.getElementById('fontWeight'),
@@ -33,11 +28,7 @@ const inputs = {
     color: document.getElementById('color'),
     backgroundColor: document.getElementById('backgroundColor')
 };
-
-// Custom Buttons
 const attrButtons = document.querySelectorAll('.attr-btn');
-
-// Value Displays
 const displays = {};
 Object.keys(inputs).forEach(key => {
     if (inputs[key] && inputs[key].type === 'range') {
@@ -45,9 +36,7 @@ Object.keys(inputs).forEach(key => {
         if (displayEl) displays[key] = displayEl;
     }
 });
-
 function updatePreview() {
-    // Apply styles to text
     previewText.style.fontSize = `${store.fontSize}px`;
     previewText.style.fontWeight = store.fontWeight;
     previewText.style.fontFamily = store.fontFamily;
@@ -58,11 +47,7 @@ function updatePreview() {
     previewText.style.textDecoration = store.textDecoration;
     previewText.style.fontStyle = store.fontStyleItalic ? 'italic' : 'normal';
     previewText.style.color = store.color;
-    
-    // Apply container bg
     previewContainer.style.backgroundColor = store.backgroundColor;
-
-    // Update displays
     Object.keys(displays).forEach(key => {
         if (displays[key]) {
             let unit = '';
@@ -70,8 +55,6 @@ function updatePreview() {
             displays[key].innerText = store[key] + unit;
         }
     });
-
-    // Update buttons
     attrButtons.forEach(btn => {
         const name = btn.dataset.name;
         const val = btn.dataset.value;
@@ -83,8 +66,6 @@ function updatePreview() {
             btn.classList.add('bg-white');
         }
     });
-
-    // Generate CSS Code
     const cssString = `.element {
   font-family: ${store.fontFamily};
   font-size: ${store.fontSize}px;
@@ -96,14 +77,10 @@ function updatePreview() {
   text-decoration: ${store.textDecoration};
   font-style: ${store.fontStyleItalic ? 'italic' : 'normal'};
   color: ${store.color};
-  
-  /* Container Bg */
   background-color: ${store.backgroundColor};
 }`;
-    
     cssCodeBlock.textContent = cssString;
 }
-
 function syncInputs() {
     Object.keys(inputs).forEach(key => {
         if (!inputs[key]) return;
@@ -114,18 +91,14 @@ function syncInputs() {
         }
     });
 }
-
-// Event Listeners
 Object.keys(inputs).forEach(key => {
     if (!inputs[key]) return;
-    
     inputs[key].addEventListener('input', (e) => {
         const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         store[key] = val;
         updatePreview();
     });
 });
-
 attrButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const name = btn.dataset.name;
@@ -134,13 +107,10 @@ attrButtons.forEach(btn => {
         updatePreview();
     });
 });
-
 resetButton.addEventListener('click', () => {
     store = { ...initialState };
     syncInputs();
     updatePreview();
 });
-
-// Initialize
 syncInputs();
 updatePreview();

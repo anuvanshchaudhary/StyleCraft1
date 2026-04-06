@@ -15,16 +15,11 @@ const initialState = {
     duration: 0.3,
     timingFunction: 'ease'
 };
-
 let store = { ...initialState };
-
-// DOM Elements
 const previewBox = document.getElementById('preview-box');
 const previewArea = document.getElementById('preview-area');
 const cssCodeBlock = document.getElementById('css-code');
 const resetButton = document.getElementById('btn-reset');
-
-// Inputs
 const inputs = {
     rotate: document.getElementById('rotate'),
     rotateX: document.getElementById('rotateX'),
@@ -42,8 +37,6 @@ const inputs = {
     duration: document.getElementById('duration'),
     timingFunction: document.getElementById('timingFunction')
 };
-
-// Value Displays
 const displays = {};
 Object.keys(inputs).forEach(key => {
     if (inputs[key] && inputs[key].type === 'range') {
@@ -51,9 +44,7 @@ Object.keys(inputs).forEach(key => {
         if (displayEl) displays[key] = displayEl;
     }
 });
-
 function updatePreview() {
-    // Apply transforms
     const transformStr = `
         perspective(${store.perspective}px)
         rotate(${store.rotate}deg) 
@@ -63,8 +54,6 @@ function updatePreview() {
         skewX(${store.skewX}deg) 
         translate(${store.translateX}px, ${store.translateY}px)
     `.replace(/\s+/g, ' ').trim();
-    
-    // Apply filters
     const filterStr = `
         blur(${store.blur}px) 
         brightness(${store.brightness}%) 
@@ -72,12 +61,9 @@ function updatePreview() {
         grayscale(${store.grayscale}%) 
         hue-rotate(${store.hueRotate}deg)
     `.replace(/\s+/g, ' ').trim();
-
     previewBox.style.transform = transformStr;
     previewBox.style.filter = filterStr;
     previewBox.style.transition = `all ${store.duration}s ${store.timingFunction}`;
-
-    // Update displays
     Object.keys(displays).forEach(key => {
         if (displays[key]) {
             let unit = '';
@@ -85,50 +71,36 @@ function updatePreview() {
             else if (key === 'translateX' || key === 'translateY' || key === 'blur' || key === 'perspective') unit = 'px';
             else if (key === 'brightness' || key === 'contrast' || key === 'grayscale') unit = '%';
             else if (key === 'duration') unit = 's';
-            
             displays[key].innerText = store[key] + unit;
         }
     });
-
-    // Generate CSS Code
     const cssString = `.element {
   transform: ${transformStr};
   filter: ${filterStr};
   transition: all ${store.duration}s ${store.timingFunction};
 }
-
-/* On Hover Changes */
 .element:hover {
-  /* Add hover styles here */
   filter: brightness(1.2);
 }`;
-    
     cssCodeBlock.textContent = cssString;
 }
-
 function syncInputs() {
     Object.keys(inputs).forEach(key => {
         if (!inputs[key]) return;
         inputs[key].value = store[key];
     });
 }
-
-// Event Listeners
 Object.keys(inputs).forEach(key => {
     if (!inputs[key]) return;
-    
     inputs[key].addEventListener('input', (e) => {
         store[key] = e.target.value;
         updatePreview();
     });
 });
-
 resetButton.addEventListener('click', () => {
     store = { ...initialState };
     syncInputs();
     updatePreview();
 });
-
-// Initialize
 syncInputs();
 updatePreview();

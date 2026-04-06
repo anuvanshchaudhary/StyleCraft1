@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stylecraft - Border Lab</title>
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <!-- Tailwind V4 Browser CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
     <style type="text/tailwindcss">
         @theme {
@@ -17,16 +14,12 @@
             --color-neo-pink: #FF00FF;
             --color-neo-green: #00FF41;
             --color-neo-white: #FFFFFF;
-
             --font-heading: "Archivo Black", sans-serif;
             --font-body: "Space Mono", monospace;
-
             --shadow-neo: 8px 8px 0px #000000;
             --shadow-neo-sm: 4px 4px 0px #000000;
             --shadow-neo-lg: 12px 12px 0px #000000;
         }
-
-        /* Custom details/summary style for accordions */
         details > summary {
             list-style: none;
         }
@@ -36,8 +29,6 @@
     </style>
 </head>
 <body class="min-h-screen bg-neo-yellow font-body">
-
-    <!-- Global Header -->
     <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
         <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
             <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
@@ -53,9 +44,7 @@
             </nav>
         </div>
     </header>
-
     <div class="p-4 md:p-8">
-        <!-- Lab Header -->
         <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <h1 class="text-4xl md:text-6xl font-heading uppercase text-neo-black drop-shadow-[4px_4px_0px_#FFFFFF]">
                 BORDER & SHAPE LAB
@@ -71,13 +60,8 @@
                 </button>
             </div>
         </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Controls Sidebar -->
             <aside class="lg:col-span-3 h-fit flex flex-col gap-4">
-                
-                <!-- Core Border -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Core Border
@@ -101,8 +85,6 @@
                         </div>
                     </div>
                 </details>
-
-                <!-- Individual Sides -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Individual Sides
@@ -114,8 +96,6 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Left</label><span id="borderLeftWidth-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">4px</span></div><input type="range" id="borderLeftWidth" min="0" max="50" value="4"></div>
                     </div>
                 </details>
-
-                <!-- Border Radius -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Border Radius
@@ -128,8 +108,6 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Bottom Left</label><span id="borderBottomLeftRadius-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0px</span></div><input type="range" id="borderBottomLeftRadius" min="0" max="200" value="0"></div>
                     </div>
                 </details>
-
-                <!-- Outline -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Outline
@@ -146,20 +124,11 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Outline Offset</label><span id="outlineOffset-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0px</span></div><input type="range" id="outlineOffset" min="-20" max="20" value="0"></div>
                     </div>
                 </details>
-
-                <!-- Box Shadow -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Box Shadow
                     </summary>
                     <div class="p-4 flex flex-col gap-4">
-                        <div class="flex items-center gap-3">
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="boxShadowInset" class="sr-only peer">
-                                <div class="w-12 h-6 bg-neo-black border-2 border-neo-black peer-focus:outline-none peer-checked:bg-neo-pink peer-checked:after:translate-x-6 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-2 after:border-neo-black after:h-4 after:w-4 after:transition-all"></div>
-                            </label>
-                            <span class="font-bold text-sm">Inset Shadow</span>
-                        </div>
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">X Offset</label><span id="boxShadowX-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">8px</span></div><input type="range" id="boxShadowX" min="-50" max="50" value="8"></div>
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Y Offset</label><span id="boxShadowY-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">8px</span></div><input type="range" id="boxShadowY" min="-50" max="50" value="8"></div>
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Blur</label><span id="boxShadowBlur-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0px</span></div><input type="range" id="boxShadowBlur" min="0" max="50" value="0"></div>
@@ -167,8 +136,6 @@
                         <div><label class="font-bold text-sm block mb-1">Shadow Color</label><input type="color" id="boxShadowColor" value="#000000" class="w-10 h-10 border-3 border-neo-black p-0 cursor-pointer"></div>
                     </div>
                 </details>
-
-                <!-- Dimensions -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Dimensions
@@ -179,10 +146,7 @@
                         <div><label class="font-bold text-sm block mb-1">Background Color</label><input type="color" id="backgroundColor" value="#FFD100" class="w-10 h-10 border-3 border-neo-black p-0 cursor-pointer"></div>
                     </div>
                 </details>
-
             </aside>
-
-            <!-- Preview -->
             <section class="lg:col-span-6 flex flex-col gap-4">
                 <div class="flex-1 bg-white border-3 border-neo-black shadow-neo p-8 flex items-center justify-center min-h-[500px] relative overflow-hidden">
                     <div class="absolute inset-0 opacity-10 pointer-events-none"
@@ -193,8 +157,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- CSS Output -->
             <aside class="lg:col-span-3 h-fit">
                 <div class="bg-neo-black text-white border-3 border-neo-black shadow-neo-sm overflow-hidden">
                     <div class="flex items-center justify-between p-3 border-b-3 border-white/20 bg-neo-black">
@@ -210,11 +172,8 @@
                     </div>
                 </div>
             </aside>
-            
         </div>
     </div>
-
-    <!-- Scripts -->
     <script src="js/border-lab.js"></script>
 </body>
 </html>

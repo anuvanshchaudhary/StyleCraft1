@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stylecraft - Warp & Motion Lab</title>
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <!-- Tailwind V4 Browser CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
     <style type="text/tailwindcss">
         @theme {
@@ -17,16 +14,12 @@
             --color-neo-pink: #FF00FF;
             --color-neo-green: #00FF41;
             --color-neo-white: #FFFFFF;
-
             --font-heading: "Archivo Black", sans-serif;
             --font-body: "Space Mono", monospace;
-
             --shadow-neo: 8px 8px 0px #000000;
             --shadow-neo-sm: 4px 4px 0px #000000;
             --shadow-neo-lg: 12px 12px 0px #000000;
         }
-
-        /* Custom details/summary style for accordions */
         details > summary {
             list-style: none;
         }
@@ -39,8 +32,6 @@
     </style>
 </head>
 <body class="min-h-screen bg-neo-yellow font-body">
-
-    <!-- Global Header -->
     <header class="sticky top-0 z-50 bg-neo-yellow border-b-3 border-neo-black shadow-neo-sm">
         <div class="container mx-auto px-4 py-8 flex flex-wrap items-center justify-between gap-4">
             <a href="index.html" class="text-3xl md:text-4xl font-heading uppercase text-neo-black shadow-white drop-shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:text-neo-pink transition-colors">
@@ -56,9 +47,7 @@
             </nav>
         </div>
     </header>
-
     <div class="p-4 md:p-8">
-        <!-- Lab Header -->
         <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <h1 class="text-4xl md:text-6xl font-heading uppercase text-neo-black drop-shadow-[4px_4px_0px_#FFFFFF]">
                 WARP & MOTION LAB
@@ -74,13 +63,8 @@
                 </button>
             </div>
         </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Controls Sidebar -->
             <aside class="lg:col-span-3 h-fit flex flex-col gap-4">
-                
-                <!-- 2D Transforms -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         2D Transform
@@ -93,8 +77,6 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Translate Y</label><span id="translateY-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0px</span></div><input type="range" id="translateY" min="-100" max="100" value="0"></div>
                     </div>
                 </details>
-
-                <!-- 3D Transforms -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         3D Transform
@@ -105,8 +87,6 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Perspective</label><span id="perspective-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">1000px</span></div><input type="range" id="perspective" min="100" max="2000" value="1000"></div>
                     </div>
                 </details>
-
-                <!-- Filters -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2">
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Filters
@@ -119,8 +99,6 @@
                         <div><div class="flex justify-between mb-1"><label class="font-bold text-sm">Hue Rotate</label><span id="hueRotate-val" class="font-bold text-sm bg-neo-black text-white px-2 py-0.5 border-2 border-neo-black">0deg</span></div><input type="range" id="hueRotate" min="0" max="360" value="0"></div>
                     </div>
                 </details>
-
-                <!-- Transition -->
                 <details class="bg-white border-3 border-neo-black shadow-neo mb-2" open>
                     <summary class="font-heading uppercase p-4 border-b-2 border-neo-black bg-white hover:bg-neo-yellow transition-colors cursor-pointer flex justify-between items-center text-lg">
                         Transition (Hover)
@@ -140,23 +118,17 @@
                         </div>
                     </div>
                 </details>
-
             </aside>
-
-            <!-- Preview -->
             <section class="lg:col-span-6 flex flex-col gap-4">
                 <div id="preview-area" class="flex-1 bg-white border-3 border-neo-black shadow-neo p-8 flex items-center justify-center min-h-[500px] relative overflow-hidden perspective-container">
                     <div class="absolute inset-0 opacity-10 pointer-events-none"
                         style="background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 20px 20px;">
                     </div>
-                    
                     <div id="preview-box" class="w-48 h-48 bg-neo-pink border-3 border-neo-black shadow-neo flex items-center justify-center font-bold text-2xl text-center p-4 transition-all hover:bg-neo-yellow active:scale-95 group cursor-pointer">
                         WARP ME
                     </div>
                 </div>
             </section>
-
-            <!-- CSS Output -->
             <aside class="lg:col-span-3 h-fit">
                 <div class="bg-neo-black text-white border-3 border-neo-black shadow-neo-sm overflow-hidden">
                     <div class="flex items-center justify-between p-3 border-b-3 border-white/20 bg-neo-black">
@@ -172,11 +144,8 @@
                     </div>
                 </div>
             </aside>
-            
         </div>
     </div>
-
-    <!-- Scripts -->
     <script src="js/warp-motion-lab.js"></script>
 </body>
 </html>
